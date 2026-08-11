@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Get Resolution
+resolution=$(python3 -c '
+import os, xml.etree.ElementTree as ET
+path = os.path.expanduser("~/.config/monitors.xml")
+m = ET.parse(path).find("configuration[1]/logicalmonitor[primary=\"yes\"]/monitor/mode")
+print(m.find("width").text + "x" + m.find("height").text)
+')
+
 # Function to clean up the virtual display when the script is terminated
 cleanup() {
     echo "Cleaning up..."
@@ -34,7 +42,7 @@ initial_displays=$(get_display_ids)
 
 # Create a virtual display on the Android device
 echo "Creating a virtual display..."
-adb shell settings put global overlay_display_devices 2240x1400/240
+adb shell settings put global overlay_display_devices $resolution/240
 
 # Wait for the new display to be recognized
 sleep 2
@@ -63,6 +71,6 @@ fi
 # Start scrcpy with the provided options and detected display ID
 echo "Starting scrcpy on the virtual display..."
 cd ~/AppImages
-./scrcpy.appimage -b 24M --window-title='Pixel Desktop' -K --max-fps=60 -f --display-id "$secondary_display_id"
+./scrcpy.appimage -b 24M --turn-screen-off -K --max-fps=60 -f --display-id "$secondary_display_id"
 
 # The cleanup function will be called automatically when the script exits

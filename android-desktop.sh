@@ -71,6 +71,6 @@ fi
 # Start scrcpy with the provided options and detected display ID
 echo "Starting scrcpy on the virtual display..."
 cd ~/AppImages
-./scrcpy.appimage -b 24M --turn-screen-off -K --max-fps=60 -f --display-id "$secondary_display_id"
+./scrcpy.appimage -b 24M --turn-screen-off -M -K --max-fps=60 -f --display-id "$secondary_display_id"
 
 # The cleanup function will be called automatically when the script exits

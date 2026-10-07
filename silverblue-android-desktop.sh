@@ -20,12 +20,6 @@ cleanup() {
 # Trap to call cleanup function when the script is closed
 trap cleanup EXIT
 
-# Check if adb is available
-if ! command -v adb &> /dev/null; then
-    echo "Error: adb is not installed or not in PATH. Please install Android Debug Bridge."
-    exit 1
-fi
-
 # Check if device is connected
 if ! adb devices | grep -q device$; then
     echo "Error: No Android device connected. Please connect a device and try again."
@@ -61,15 +55,8 @@ else
     echo "Detected secondary display ID: $secondary_display_id"
 fi
 
-# Check if scrcpy is available
-if ! command -v scrcpy &> /dev/null; then
-    echo "Error: scrcpy is not installed or not in PATH. Please install scrcpy."
-    cleanup
-    exit 1
-fi
-
 # Start scrcpy with the provided options and detected display ID
 echo "Starting scrcpy on the virtual display..."
-scrcpy --turn-screen-off --mouse-bind=++++ -K --max-fps=60 -f --display-id "$secondary_display_id"
+distrobox-enter -n scrcpy-env -- scrcpy --turn-screen-off --mouse-bind=++++ -K --max-fps=60 -f --display-id "$secondary_display_id"
 
 # The cleanup function will be called automatically when the script exits

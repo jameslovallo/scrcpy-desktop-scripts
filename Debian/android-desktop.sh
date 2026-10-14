@@ -57,6 +57,7 @@ fi
 
 # Start scrcpy with the provided options and detected display ID
 echo "Starting scrcpy on the virtual display..."
-distrobox-enter -n scrcpy-env -- scrcpy --turn-screen-off --mouse-bind=++++ -K --max-fps=60 -f --display-id "$secondary_display_id"
+cd scrcpy-latest/
+./scrcpy --turn-screen-off --mouse-bind=++++ -K --max-fps=60 -f --display-id "$secondary_display_id"
 
 # The cleanup function will be called automatically when the script exits

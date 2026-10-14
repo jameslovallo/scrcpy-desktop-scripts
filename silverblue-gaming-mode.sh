@@ -1,1 +1,0 @@
-distrobox-enter -n scrcpy-env -- scrcpy --new-display -x -M -K --max-fps=60

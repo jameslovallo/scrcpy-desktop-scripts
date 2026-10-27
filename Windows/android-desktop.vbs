@@ -22,12 +22,11 @@ Do While Not oExec.StdOut.AtEndOfStream
     End If
 Loop
 
-' 3. Start scrcpy and wait for it to close when disconnected
+' 3. Start scrcpy and wait for it to close
 If simulatedDisplay <> "" Then
-    scrcpyCmd = "scrcpy -b 24M -d --video-codec=av1 --window-title=""Pixel 8"" --max-fps=60 -f -K -M -S --stay-awake --display-id=" & simulatedDisplay
-    ' Set the final parameter to True to block execution until scrcpy exits
+    scrcpyCmd = "scrcpy -f -K --mouse-bind=++bh -S --stay-awake --display-id=" & simulatedDisplay
     WshShell.Run scrcpyCmd, 0, True
 End If
 
 ' 4. Clean up the virtual display after scrcpy exits
-WshShell.Run "adb shell settings put global overlay_display_devices null", 0, True
+WshShell.Run "adb shell settings put global overlay_display_devices none", 0, True
